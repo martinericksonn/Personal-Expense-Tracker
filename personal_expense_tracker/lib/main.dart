@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
-
-import 'dart:html';
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespaceimport 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:personal_expense_tracker/widgets/transaction_form.dart';
