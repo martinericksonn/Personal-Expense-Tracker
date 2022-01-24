@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, unused_element
 
 import 'package:flutter/material.dart';
-import 'package:personal_expense_tracker/classes/transactions.dart';
+import 'package:personal_expense_tracker/components/transactions.dart';
+
 import 'package:personal_expense_tracker/widgets/transaction_form.dart';
 import 'package:personal_expense_tracker/widgets/transaction_list.dart';
 
@@ -26,17 +27,15 @@ class _TransactionUserState extends State<TransactionUser> {
       amount,
       DateTime.now(),
     );
-  }
-  // setState((){
-  // _usertransactions.add(newTransaction)
-  // }){
 
-  // }
+    setState(() => _usertransactions.add(newTransaction));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TransactionForm(),
+        TransactionForm(_addNewTransaction),
         TransactionList(_usertransactions),
       ],
     );
