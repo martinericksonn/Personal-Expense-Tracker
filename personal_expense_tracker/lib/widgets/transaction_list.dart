@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_key_in_widget_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +11,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 470,
+      height: 400,
       child: ListView.builder(
         itemCount: transaction.length,
         itemBuilder: (context, index) => Card(
@@ -26,15 +26,15 @@ class TransactionList extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                     width: 2,
                   ),
                 ),
                 child: Text(
-                  '₱ ${transaction[index].amount}',
+                  '₱ ${transaction[index].amount.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),
