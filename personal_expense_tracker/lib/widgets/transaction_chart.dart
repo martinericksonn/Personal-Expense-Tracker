@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_expense_tracker/components/amounts.dart';
 import 'package:personal_expense_tracker/components/transactions.dart';
+import 'package:personal_expense_tracker/widgets/transaction_bar.dart';
 
 class Chart extends StatelessWidget {
   Chart(this.recentTransaction, {Key? key}) : super(key: key);
@@ -13,38 +14,50 @@ class Chart extends StatelessWidget {
       final dayOfWeek = DateTime.now().subtract(
         Duration(days: index),
       );
-      // var recentTransactionResult = recentTransaction
-      //     .where((element) => element.date.day == dayOfWeek.day &&
-      //      element.date.month == dayOfWeek.month &&
-      //      element.date.year == dayOfWeek.year)
-      //     .toList();
-
-      // for (var transaction in recentTransactionResult) {
-      //   sumAmount += transaction.amount;
-      // }
 
       var totalAmount = 0.0;
-      for (var i = 0; i < recentTransaction.length; i++) {
-        if (recentTransaction[i].date.day == dayOfWeek.day &&
-            recentTransaction[i].date.month == dayOfWeek.month &&
-            recentTransaction[i].date.year == dayOfWeek.year) {
-          totalAmount += recentTransaction[i].amount;
-        }
+      var recentTransactionResult = recentTransaction
+          .where((element) =>
+              element.date.day == dayOfWeek.day &&
+              element.date.month == dayOfWeek.month &&
+              element.date.year == dayOfWeek.year)
+          .toList();
+
+      for (var transaction in recentTransactionResult) {
+        totalAmount += transaction.amount;
       }
-      print(DateFormat.E().format(dayOfWeek));
-      return Amount(DateFormat.E().format(dayOfWeek), totalAmount);
+
+      return Amount(
+        DateFormat.E().format(dayOfWeek),
+        totalAmount,
+      );
     });
+  }
+
+  double get totalExpenses {
+    return transactionAmount.fold(
+        0.0, (previousValue, element) => previousValue + element.amount);
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(transactionAmount.toString());
-    // for (var item in transactionAmount.toList()) {
-    //   print(item.toString());
-    // }
     return Card(
-      elevation: 6,
-      margin: EdgeInsets.all(5),
-    );
+        elevation: 4,
+        margin: EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: transactionAmount.map((data) {
+              return Expanded(
+                child: ChartBar(
+                  data.day,
+                  data.amount,
+                  totalExpenses == 0.0 ? 0.0 : data.amount / totalExpenses,
+                ),
+              );
+            }).toList(),
+          ),
+        ));
   }
 }

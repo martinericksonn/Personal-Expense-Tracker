@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespaceimport 'dart:html';
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespaceimport 'dart:html';, prefer_const_constructors_in_immutables
 
 import 'dart:ui';
 
@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _usertransactions = [
+  final List<Transaction> _userTransactions = [
     // Transaction('01', 'Burger', 132.12, DateTime.now()),
     // Transaction('02', 'Fries', 246.31, DateTime.now()),
     // Transaction('03', 'Ice Cream', 152.43, DateTime.now()),
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       DateTime.now(),
     );
 
-    setState(() => _usertransactions.add(newTransaction));
+    setState(() => _userTransactions.add(newTransaction));
   }
 
   void openAddTransaction(BuildContext context) {
@@ -83,6 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
         return TransactionForm(_addNewTransaction);
       },
     );
+  }
+
+  List<Transaction> get recentTransaction {
+    return _userTransactions.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
   }
 
   @override
@@ -100,14 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
-                child: Card(
-                  elevation: 1,
-                  child: Chart(_usertransactions),
-                ),
+                child: Chart(_userTransactions),
               ),
-              TransactionList(_usertransactions)
+              TransactionList(_userTransactions)
             ],
           ),
         ),

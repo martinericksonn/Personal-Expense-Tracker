@@ -35,49 +35,31 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemCount: transaction.length,
               itemBuilder: (context, index) => Card(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      // margin: EdgeInsets.symmetric(
-                      //   horizontal: 15,
-                      //   vertical: 10,
-                      // ),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        '₱ ${transaction[index].amount.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+                elevation: 4,
+                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FittedBox(
+                        child: Text(
+                          '₱${transaction[index].amount.toStringAsFixed(2)}',
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          transaction[index].title,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        Text(
-                          DateFormat.yMMMMEEEEd()
-                              .format(transaction[index].date),
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
+                  title: Text(
+                    transaction[index].title,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle: Text(
+                    DateFormat.yMMMEd().format(transaction[index].date),
+                  ),
                 ),
               ),
             ),
     );
   }
 }
+//
