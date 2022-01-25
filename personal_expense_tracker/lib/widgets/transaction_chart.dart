@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_expense_tracker/components/amounts.dart';
 import 'package:personal_expense_tracker/components/transactions.dart';
 
 class Chart extends StatelessWidget {
   Chart(this.recentTransaction, {Key? key}) : super(key: key);
   List<Transaction> recentTransaction;
 
-  List<Map<String, Object>> get transactionAmount {
+  List<Amount> get transactionAmount {
     return List.generate(7, (index) {
       final dayOfWeek = DateTime.now().subtract(
         Duration(days: index),
@@ -30,16 +31,17 @@ class Chart extends StatelessWidget {
           totalAmount += recentTransaction[i].amount;
         }
       }
-      return {
-        'day': DateFormat.E(dayOfWeek),
-        'amount': totalAmount,
-      };
+      print(DateFormat.E().format(dayOfWeek));
+      return Amount(DateFormat.E().format(dayOfWeek), totalAmount);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(transactionAmount);
+    // print(transactionAmount.toString());
+    // for (var item in transactionAmount.toList()) {
+    //   print(item.toString());
+    // }
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(5),
