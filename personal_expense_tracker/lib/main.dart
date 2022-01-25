@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:personal_expense_tracker/widgets/transaction_chart.dart';
 import 'package:personal_expense_tracker/widgets/transaction_form.dart';
 import 'package:personal_expense_tracker/widgets/transaction_list.dart';
 
@@ -103,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: double.infinity,
                 child: Card(
                   elevation: 1,
-                  child: Text(" "),
+                  child: Chart(_usertransactions),
                 ),
               ),
               TransactionList(_usertransactions)
