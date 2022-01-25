@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespaceimport 'dart:html';
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:personal_expense_tracker/widgets/transaction_form.dart';
 import 'package:personal_expense_tracker/widgets/transaction_list.dart';
@@ -22,8 +24,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Expense App',
+      title: 'Expense Tracker ',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        textTheme: TextTheme(
+          headline6: TextStyle(
+              fontFamily: 'QuickSand',
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
+        ),
         fontFamily: 'QuickSand',
         primarySwatch: Colors.purple,
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -44,9 +59,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _usertransactions = [
-    Transaction('01', 'Burger', 132.12, DateTime.now()),
-    Transaction('02', 'Fries', 246.31, DateTime.now()),
-    Transaction('03', 'Ice Cream', 152.43, DateTime.now()),
+    // Transaction('01', 'Burger', 132.12, DateTime.now()),
+    // Transaction('02', 'Fries', 246.31, DateTime.now()),
+    // Transaction('03', 'Ice Cream', 152.43, DateTime.now()),
   ];
 
   void _addNewTransaction(String title, double amount) {
@@ -73,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Expense App'),
+          title: Text('Expense Tracker'),
           actions: [
             IconButton(
               onPressed: () => openAddTransaction(context),

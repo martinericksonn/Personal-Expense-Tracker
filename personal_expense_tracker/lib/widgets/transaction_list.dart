@@ -12,54 +12,72 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      child: ListView.builder(
-        itemCount: transaction.length,
-        itemBuilder: (context, index) => Card(
-          child: Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(10),
-                // margin: EdgeInsets.symmetric(
-                //   horizontal: 15,
-                //   vertical: 10,
-                // ),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
-                  ),
+      child: transaction.isEmpty
+          ? Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text(
+                  "No transaction added yet",
+                  style: Theme.of(context).textTheme.headline6,
                 ),
-                child: Text(
-                  '₱ ${transaction[index].amount.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 200,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.fill,
                   ),
+                )
+              ],
+            )
+          : ListView.builder(
+              itemCount: transaction.length,
+              itemBuilder: (context, index) => Card(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      // margin: EdgeInsets.symmetric(
+                      //   horizontal: 15,
+                      //   vertical: 10,
+                      // ),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(
+                        '₱ ${transaction[index].amount.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          transaction[index].title,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          DateFormat.yMMMMEEEEd()
+                              .format(transaction[index].date),
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    transaction[index].title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    DateFormat.yMMMMEEEEd().format(transaction[index].date),
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
