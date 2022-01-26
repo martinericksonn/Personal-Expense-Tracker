@@ -2,14 +2,16 @@
 
 import 'package:flutter/material.dart';
 
+import 'classes/constants.dart';
+
 class ChartBar extends StatelessWidget {
-  final String label;
-  final double spendingAmount;
+  final String date;
+  final double amountSpend;
   final double percentageOfTotalAmount;
 
   ChartBar(
-    this.label,
-    this.spendingAmount,
+    this.date,
+    this.amountSpend,
     this.percentageOfTotalAmount,
   );
   @override
@@ -18,47 +20,63 @@ class ChartBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         children: [
+          amountAmount(),
           SizedBox(
-            height: 20,
-            child: FittedBox(
-              child: Text('₱${spendingAmount.toStringAsFixed(0)}'),
-            ),
+            height: EMPTY_SPACE,
           ),
+          expenseBar(context),
           SizedBox(
-            height: 5,
+            height: EMPTY_SPACE,
           ),
-          SizedBox(
-            height: 60,
-            width: 10,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                    color: Colors.grey[350],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                FractionallySizedBox(
-                  heightFactor: percentageOfTotalAmount,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).copyWith().primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(label),
+          Text(date),
         ],
+      ),
+    );
+  }
+
+  SizedBox expenseBar(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      width: 10,
+      child: Stack(
+        children: [
+          barBackground(),
+          barForeground(context),
+        ],
+      ),
+    );
+  }
+
+  FractionallySizedBox barForeground(BuildContext context) {
+    return FractionallySizedBox(
+      heightFactor: percentageOfTotalAmount,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).copyWith().primaryColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
+  SizedBox amountAmount() {
+    return SizedBox(
+      height: 20,
+      child: FittedBox(
+        child: Text('₱${amountSpend.toStringAsFixed(0)}'),
+      ),
+    );
+  }
+
+  Container barBackground() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1.0,
+        ),
+        color: Colors.grey[350],
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

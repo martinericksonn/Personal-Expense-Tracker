@@ -1,21 +1,23 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expense_tracker/components/amounts.dart';
-import 'package:personal_expense_tracker/components/transactions.dart';
-import 'package:personal_expense_tracker/widgets/transaction_bar.dart';
+
+import 'package:personal_expense_tracker/transaction_bar.dart';
+import 'classes/amounts.dart';
+import 'classes/constants.dart';
+import 'classes/transactions.dart';
 
 class Chart extends StatelessWidget {
   Chart(this.recentTransaction, {Key? key}) : super(key: key);
   List<Transaction> recentTransaction;
 
   List<Amount> get transactionAmount {
-    return List.generate(7, (index) {
+    return List.generate(DAY_IN_A_WEEK, (index) {
       final dayOfWeek = DateTime.now().subtract(
         Duration(days: index),
       );
 
-      var totalAmount = 0.0;
+      var totalAmount = ZERO;
       var recentTransactionResult = recentTransaction
           .where((element) =>
               element.date.day == dayOfWeek.day &&
@@ -36,16 +38,16 @@ class Chart extends StatelessWidget {
 
   double get totalExpenses {
     return transactionAmount.fold(
-        0.0, (previousValue, element) => previousValue + element.amount);
+        ZERO, (previousValue, element) => previousValue + element.amount);
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 4,
-        margin: EdgeInsets.all(12),
+        elevation: ELEVATION,
+        margin: EdgeInsets.all(MEDIUM_SPACE),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(LARGE_SPACE),
           child: chartBar(),
         ));
   }
@@ -58,7 +60,7 @@ class Chart extends StatelessWidget {
           child: ChartBar(
             data.day,
             data.amount,
-            totalExpenses == 0 ? 0 : data.amount / totalExpenses,
+            totalExpenses == ZERO ? ZERO : data.amount / totalExpenses,
           ),
         );
       }).toList(),

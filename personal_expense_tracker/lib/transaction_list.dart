@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expense_tracker/components/transactions.dart';
+
+import 'classes/transactions.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transaction;
@@ -18,14 +19,16 @@ class TransactionList extends StatelessWidget {
     );
   }
 
-  ListView transactionList() {
-    return ListView.builder(
-      itemCount: transaction.length,
-      itemBuilder: (context, index) => Card(
-        elevation: 4,
-        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        child: listTile(index, context),
-      ),
+  Text expenseDate(int index) {
+    return Text(
+      DateFormat.yMMMEd().format(transaction[index].date),
+    );
+  }
+
+  Text expenseName(int index, BuildContext context) {
+    return Text(
+      transaction[index].title,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 
@@ -38,6 +41,17 @@ class TransactionList extends StatelessWidget {
     );
   }
 
+  ListView transactionList() {
+    return ListView.builder(
+      itemCount: transaction.length,
+      itemBuilder: (context, index) => Card(
+        elevation: 4,
+        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: listTile(index, context),
+      ),
+    );
+  }
+
   IconButton deleteExpense(BuildContext context, int index) {
     return IconButton(
       icon: Icon(
@@ -45,19 +59,6 @@ class TransactionList extends StatelessWidget {
         color: Theme.of(context).errorColor,
       ),
       onPressed: () => deleteTransaction(index),
-    );
-  }
-
-  Text expenseDate(int index) {
-    return Text(
-      DateFormat.yMMMEd().format(transaction[index].date),
-    );
-  }
-
-  Text expenseName(int index, BuildContext context) {
-    return Text(
-      transaction[index].title,
-      style: Theme.of(context).textTheme.headline6,
     );
   }
 

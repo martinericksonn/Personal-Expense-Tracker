@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'classes/constants.dart';
+
 class TransactionForm extends StatefulWidget {
   final Function addNewTransaction;
 
@@ -20,12 +22,10 @@ class _TransactionFormState extends State<TransactionForm> {
 
   void submitTransaction() {
     final inputedTitle = titleController.text;
-
     if (amountController.text.isEmpty) return;
 
     final inputedAmount = double.parse(amountController.text);
-
-    if (inputedTitle.isEmpty || inputedAmount <= 0 || selectedDate == null) {
+    if (inputedTitle.isEmpty || inputedAmount <= ZERO || selectedDate == null) {
       return;
     }
 
@@ -42,7 +42,7 @@ class _TransactionFormState extends State<TransactionForm> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
+      firstDate: DateTime(YEAR_NOW),
       lastDate: DateTime.now(),
     ).then((value) {
       if (value == null) return;
@@ -57,7 +57,7 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(SMALL_SPACE),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           // ignore: prefer_const_literals_to_create_immutables
