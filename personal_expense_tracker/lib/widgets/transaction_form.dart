@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final Function addNewTransaction;
@@ -14,8 +15,8 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime? selectedDate;
 
   void submitTransaction() {
     final inputedTitle = titleController.text;
@@ -30,6 +31,21 @@ class _TransactionFormState extends State<TransactionForm> {
     );
 
     Navigator.of(context).pop();
+  }
+
+  void selectDate() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      if (value == null) return;
+
+      setState(() {
+        selectedDate = value;
+      });
+    });
   }
 
   @override
@@ -56,7 +72,28 @@ class _TransactionFormState extends State<TransactionForm> {
                 labelText: 'Amount',
               ),
             ),
-            TextButton(
+            SizedBox(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Text(selectedDate == null
+                      ? 'No Date Choosen!'
+                      : 'Date Picked: ${DateFormat.yMd().format(selectedDate!)} '),
+                  TextButton(
+                    onPressed: selectDate,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: submitTransaction,
               child: Text("Add Transaction"),
             )

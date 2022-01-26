@@ -18,7 +18,7 @@ class ChartBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 20,
             child: FittedBox(
               child: Text('₱${spendingAmount.toStringAsFixed(0)}'),
