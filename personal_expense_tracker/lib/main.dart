@@ -3,11 +3,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:personal_expense_tracker/widgets/transaction_chart.dart';
-import 'package:personal_expense_tracker/widgets/transaction_form.dart';
-import 'package:personal_expense_tracker/widgets/transaction_list.dart';
+import 'package:personal_expense_tracker/transaction_chart.dart';
+import 'package:personal_expense_tracker/transaction_form.dart';
+import 'package:personal_expense_tracker/transaction_list.dart';
 
-import 'components/transactions.dart';
+import 'classes/transactions.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,28 +26,30 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Expense Tracker ',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        textTheme: TextTheme(
-          headline6: TextStyle(
-              fontFamily: 'QuickSand',
-              fontWeight: FontWeight.bold,
-              fontSize: 18),
-        ),
-        fontFamily: 'QuickSand',
-        primarySwatch: Colors.purple,
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.purple,
-          secondary: Colors.amber, // Your accent color
+      theme: appTheme(),
+      home: MyHomePage(),
+    );
+  }
+
+  ThemeData appTheme() {
+    return ThemeData(
+      appBarTheme: AppBarTheme(
+        titleTextStyle: TextStyle(
+          fontFamily: 'OpenSans',
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
       ),
-      home: MyHomePage(),
+      textTheme: TextTheme(
+        headline6: TextStyle(
+            fontFamily: 'QuickSand', fontWeight: FontWeight.bold, fontSize: 18),
+      ),
+      fontFamily: 'QuickSand',
+      primarySwatch: Colors.purple,
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: Colors.purple,
+        secondary: Colors.amber, // Your accent color
+      ),
     );
   }
 }
@@ -99,33 +101,44 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  AppBar titleBar(BuildContext context) {
+    return AppBar(
+      title: Text('Expense Tracker'),
+      actions: [
+        IconButton(
+          onPressed: () => openAddTransaction(context),
+          icon: Icon(Icons.add),
+        ),
+      ],
+    );
+  }
+
+  SingleChildScrollView transactionList() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Chart(userTransactions),
+          ),
+          TransactionList(userTransactions, deleteTransaction)
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Expense Tracker'),
-          actions: [
-            IconButton(
-              onPressed: () => openAddTransaction(context),
-              icon: Icon(Icons.add),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Chart(userTransactions),
-              ),
-              TransactionList(userTransactions, deleteTransaction)
-            ],
-          ),
-        ),
+        appBar: titleBar(context),
+        body: transactionList(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () => openAddTransaction(context),
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
         ));
   }
 }

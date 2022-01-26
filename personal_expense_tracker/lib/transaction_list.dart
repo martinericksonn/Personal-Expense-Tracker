@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_key_in_widget_constructors, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,7 +12,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 524,
       child:
           transaction.isEmpty ? emptyTransaction(context) : transactionList(),
     );
@@ -82,18 +81,25 @@ class TransactionList extends StatelessWidget {
       children: [
         Text(
           "No transaction added yet",
-          style: Theme.of(context).textTheme.headline6,
+          style: TextStyle(
+            fontFamily: 'QuickSand',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         SizedBox(
           height: 20,
         ),
         Container(
-          height: 200,
-          child: Image.asset(
-            'assets/images/waiting.png',
-            fit: BoxFit.fill,
-          ),
-        )
+            height: 190,
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3), BlendMode.dstIn),
+              child: Image.asset(
+                'assets/images/waiting.png',
+                fit: BoxFit.fill,
+              ),
+            ))
       ],
     );
   }

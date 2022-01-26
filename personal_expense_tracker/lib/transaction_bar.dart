@@ -47,6 +47,20 @@ class ChartBar extends StatelessWidget {
     );
   }
 
+  SizedBox amountAmount() {
+    return SizedBox(
+      height: 20,
+      child: FittedBox(
+        child: Text(
+          '₱${amountSpend.toStringAsFixed(0)}',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
   FractionallySizedBox barForeground(BuildContext context) {
     return FractionallySizedBox(
       heightFactor: percentageOfTotalAmount,
@@ -55,15 +69,6 @@ class ChartBar extends StatelessWidget {
           color: Theme.of(context).copyWith().primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
-      ),
-    );
-  }
-
-  SizedBox amountAmount() {
-    return SizedBox(
-      height: 20,
-      child: FittedBox(
-        child: Text('₱${amountSpend.toStringAsFixed(0)}'),
       ),
     );
   }
