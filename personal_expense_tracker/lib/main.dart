@@ -59,34 +59,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
+  final List<Transaction> userTransactions = [
     // Transaction('01', 'Burger', 132.12, DateTime.now()),
     // Transaction('02', 'Fries', 246.31, DateTime.now()),
     // Transaction('03', 'Ice Cream', 152.43, DateTime.now()),
   ];
 
-  void _addNewTransaction(String title, double amount) {
+  void deleteTransaction(int index) {
+    setState(() {
+      userTransactions.removeAt(index);
+    });
+  }
+
+  void addNewTransaction(String title, double amount, DateTime dateSeleted) {
     final newTransaction = Transaction(
       DateTime.now().toString(),
       title,
       amount,
-      DateTime.now(),
+      dateSeleted,
     );
 
-    setState(() => _userTransactions.add(newTransaction));
+    setState(() => userTransactions.add(newTransaction));
   }
 
   void openAddTransaction(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return TransactionForm(_addNewTransaction);
+        return TransactionForm(addNewTransaction);
       },
     );
   }
 
   List<Transaction> get recentTransaction {
-    return _userTransactions.where((element) {
+    return userTransactions.where((element) {
       return element.date.isAfter(DateTime.now().subtract(
         Duration(days: 7),
       ));
@@ -110,9 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Chart(_userTransactions),
+                child: Chart(userTransactions),
               ),
-              TransactionList(_userTransactions)
+              TransactionList(userTransactions, deleteTransaction)
             ],
           ),
         ),

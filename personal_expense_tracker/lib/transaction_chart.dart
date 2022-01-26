@@ -46,18 +46,22 @@ class Chart extends StatelessWidget {
         margin: EdgeInsets.all(12),
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: transactionAmount.map((data) {
-              return Expanded(
-                child: ChartBar(
-                  data.day,
-                  data.amount,
-                  totalExpenses == 0.0 ? 0.0 : data.amount / totalExpenses,
-                ),
-              );
-            }).toList(),
-          ),
+          child: chartBar(),
         ));
+  }
+
+  Row chartBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: transactionAmount.map((data) {
+        return Expanded(
+          child: ChartBar(
+            data.day,
+            data.amount,
+            totalExpenses == 0 ? 0 : data.amount / totalExpenses,
+          ),
+        );
+      }).toList(),
+    );
   }
 }

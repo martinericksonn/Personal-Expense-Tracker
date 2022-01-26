@@ -20,14 +20,19 @@ class _TransactionFormState extends State<TransactionForm> {
 
   void submitTransaction() {
     final inputedTitle = titleController.text;
-    final inputedAmount = double.parse(
-        amountController.text.isEmpty ? '0' : amountController.text);
 
-    if (inputedTitle.isEmpty || inputedAmount <= 0) return;
+    if (amountController.text.isEmpty) return;
+
+    final inputedAmount = double.parse(amountController.text);
+
+    if (inputedTitle.isEmpty || inputedAmount <= 0 || selectedDate == null) {
+      return;
+    }
 
     widget.addNewTransaction(
       titleController.text,
       double.parse(amountController.text),
+      selectedDate,
     );
 
     Navigator.of(context).pop();
