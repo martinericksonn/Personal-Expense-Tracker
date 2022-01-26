@@ -31,7 +31,7 @@ class Chart extends StatelessWidget {
         DateFormat.E().format(dayOfWeek),
         totalAmount,
       );
-    });
+    }).reversed.toList();
   }
 
   double get totalExpenses {
